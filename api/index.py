@@ -50,7 +50,7 @@ students_data = [
 
 students_marks = {student['name']: student['marks'] for student in students_data}
 
-@app.get("/api")
+@app.get("/")
 async def get_marks(name: List[str] = Query(...)):
     result = [students_marks.get(n, None) for n in name]
     return {"marks": result}
