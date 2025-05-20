@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
-from typing import List
+from typing import List, Optional
 
 app = FastAPI()
 
@@ -50,7 +50,12 @@ students_data = [
 
 students_marks = {student['name']: student['marks'] for student in students_data}
 
-@app.get("/")
-async def get_marks(name: List[str] = Query(...)):
+
+@app.get("/api")
+async def get_marks(name: Optional[List[str]] = Query(default=None)):
+    if not name:
+        # Return all data or a friendly message
+        return {"message": "No names provided", "all_students_count": len(students_data)}
     result = [students_marks.get(n, None) for n in name]
     return {"marks": result}
+
