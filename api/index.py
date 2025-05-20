@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
+from mangum import Mangum
 
 app = FastAPI()
 
@@ -59,3 +60,4 @@ async def get_marks(name: Optional[List[str]] = Query(default=None)):
     result = [students_marks.get(n, None) for n in name]
     return {"marks": result}
 
+handler = Mangum(app)
